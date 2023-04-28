@@ -1,37 +1,14 @@
 import pandas as pd
 import numpy as np
 
-import os
-import sys
-
-import random
 import librosa
-import librosa.display
-import seaborn as sns
-import matplotlib.pyplot as plt
-sns.set_theme(style="whitegrid")
 
-from sklearn.preprocessing import StandardScaler, OneHotEncoder
-from sklearn.metrics import confusion_matrix, classification_report, accuracy_score
-from sklearn.model_selection import train_test_split
 
 from IPython.display import Audio
 
 from tensorflow import keras
-from tensorflow.keras import layers
-from keras.callbacks import ReduceLROnPlateau, EarlyStopping
-from keras.models import Sequential, model_from_json
-from keras.layers import Dense, Conv1D, MaxPooling1D, Flatten, Dropout, BatchNormalization, LSTM, Bidirectional
-from keras.utils import np_utils
-from tensorflow.keras.utils import to_categorical
-from keras.callbacks import ModelCheckpoint
+from keras.models import model_from_json
 
-import warnings
-if not sys.warnoptions:
-    warnings.simplefilter("ignore")
-warnings.filterwarnings("ignore", category=DeprecationWarning)
-
-!pip install librosa
 
 json_file = open('Gender_Classification_conv1d_Model_99.json', 'r')
 loaded_model_json = json_file.read()
