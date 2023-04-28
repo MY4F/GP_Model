@@ -34,34 +34,32 @@ def extract_features(data):
      
     return result
 
-
 def audio_class(audio_path):
     testMale, sr = librosa.load(audio_path) 
-    result = extarct_features(testMale)
+    result = extract_features(testMale)
     features=np.expand_dims(result,axis=0)
-    features=np.expand_dims(result,axis=2)
-    pred = loaded_model.predict(result)
+    print(features.shape)
+    features=np.expand_dims(features,axis=2)
+    print(features.shape)
+    pred = loaded_model.predict(features)
     return pred
 
 from flask import Flask, request 
 from werkzeug.utils import secure_filename
 #Create a new Flask app
 app = Flask(__name__) 
-
-@app.route('/hello')
-def hello_world():
-    return 'Hello World!'
-
 #Create a new route for the upload endpoint with the POST method
 @app.route('/upload', methods=['POST'])
 def upload_audio():
     audio = request.files['audio'] 
     filename = secure_filename(audio.filename)
     audio.save(filename)
-    print('here')
-    audioClass = audio_class(audio)
-    print(audioClass)
-    return 'Audio received' 
+    audioClass = audio_class(filename)
+    print(np.argmax(audioClass))
+    if np.argmax(audioClass) == 0:
+        return "female"
+    else:
+        return "male"
 
 if __name__ == '__main__':
     app.run() 
